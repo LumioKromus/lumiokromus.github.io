@@ -1,0 +1,16 @@
+{
+  "name": "Dineromio",
+  "short_name": "Dineromio",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#fdfdfd",
+  "theme_color": "#7533f9",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "images/icon.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}

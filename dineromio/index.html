@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <title>Dineromio</title>
+  <meta charset="UTF-8">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="images/icon.png" type="image" sizes="512x512">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!--<div id="loadingDiv" class ="mainBar" style="display:none"><h3>Aguarde un instante..</h3></div> -->
+
+
+
+<div class="container-fluid">
+  <div class="row">
+      <div class="col-md-6 mi-contenedor primaryDiv">
+          <!-- Contenido del primer contenedor -->
+      <div class="mainBar"><h3><img src="images/piggy-bank.svg" alt="delete" width="50" height="50" class="imagen-blanca"> Dineromio</h3></div>
+      <br>
+      <h1 style="text-align: center" id="budget">$ 0</h1>
+      <hr>
+      <form>
+
+        <div class="mb-3">
+          <label for="exampleFormControlInput1" class="form-label black">REGISTRAR TRANSACCIONES</label>
+          <br>
+          <label for="exampleFormControlInput1" class="form-label black">Cantidad:</label>
+          <input type="text" class="form-control" id="cantidadTxt" placeholder="Ingrese la cantidad de dinero" maxlength="9">
+        </div>
+        <div class="mb-3">
+          <label for="exampleFormControlInput1" class="form-label black">Descripción:</label>
+          <input type="text" class="form-control" id="descripcionTxt" placeholder="Ingrese descripción del monto" maxlength="100">
+        </div>
+
+        <div style="text-align: center;">
+
+          <button type="button" onclick="programa('add')" class="btn btn-custom-color"> + </button>
+          <button type="button" onclick="programa('remove')" class="btn btn-custom-color"> - </button>
+          <button type="button" onclick="deleteBox()" class="btn btn-custom-color">Borrar</button>
+
+        </div>
+
+      </form>
+
+      </div>
+      <div class="col-md-6 mi-contenedor secondaryDiv" >
+          <!-- Contenido del segundo contenedor -->
+          <div class="mainBar"><label for="exampleFormControlInput1" class="form-label">REGISTRO</label></div>
+          <div id="contenedor2">
+          </div>
+      </div>
+  </div>
+</div>
+
+</div>
+
+<script src="js/app.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+var budget = 0;
+var mapa = {};
+
+document.addEventListener("DOMContentLoaded", function() {
+    checkConnectionAndShowLoading();
+    load();
+    checkEmpty();
+
+});
+
+function deleteBox() {
+  Swal.fire({
+/*     title: 'Confirmación', */
+    text: '¿Estás seguro de que quieres borrar todas los registros?',
+/*     icon: 'question', */
+    showCancelButton: true,
+    confirmButtonColor: '#7533f9',
+    cancelButtonColor: '#7533f9',
+    confirmButtonText: 'Aceptar',
+    cancelButtonText: 'Cancelar'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      cleanContent();
+    }
+  });
+}
+
+function cleanContent(){
+    budget = 0;
+    mapa = {};
+    document.getElementById("budget").textContent = String(budget);
+    document.getElementById("cantidadTxt").value = "";
+    document.getElementById("descripcionTxt").value = "";
+    document.getElementById("contenedor2").innerHTML = "";
+    checkEmpty();
+}
+
+function newEntry(mapa) {
+  // Obtener el contenedor2
+  var contenedor = document.getElementById("contenedor2");
+
+  // Limpiar el contenido actual del contenedor
+  contenedor.innerHTML = "";
+
+  // Iterar sobre las claves del mapa
+  for (var clave in mapa) {
+    if (mapa.hasOwnProperty(clave)) {
+      // Obtener el array de valores asociado a la clave
+      var valores = mapa[clave];
+
+      // Crear un div para contener los valores
+      var divContenedor = document.createElement("div");
+      // divContenedor.style.border = "1px solid black";
+
+
+      // Cambiar el color de fondo del div a rojo si hay algún valor "remove"
+
+      // Crear elementos de párrafo y agregarlos al div contenedor
+      for (var i = 0; i < valores.length-1; i++) { // IMPORTANTE >>>> -1 limita el array para que algunos valores no se muestren
+        // Crear un elemento de párrafo
+        var parrafo = document.createElement("p");
+
+        // Agregar el valor correspondiente al párrafo
+        var texto = document.createTextNode(valores[i]);
+        parrafo.appendChild(texto);
+
+
+        // Establecer el margen inferior del párrafo a 0
+        parrafo.style.marginBottom = "0";
+
+        // Asignar un ID único al párrafo
+        var idParrafo = "parrafo_" + i;
+        parrafo.id = idParrafo;
+        
+        if(mapa[clave][3] === "remove"){
+        
+        parrafo.classList.add("remove");
+            
+        }
+        
+
+        
+
+        // Agregar el párrafo al div contenedor
+        divContenedor.appendChild(parrafo);
+      }
+
+      // Crear un botón "Eliminar"
+      // Crear un botón de Bootstrap con un ícono de "trash"
+      var botonEliminar = document.createElement("button");
+      botonEliminar.className = "btn btn-custom-color btn-sm"; // Clases de Bootstrap para un botón rojo
+      botonEliminar.innerHTML = '<img src="images/trash.svg" alt="delete"> Eliminar registro '; // Ícono de "trash" antes del texto
+
+      // Agregar el evento clic al botón
+      botonEliminar.addEventListener("click", function (clave) {
+
+        return function () {
+          var op = mapa[clave][3];
+
+          if (op == "add" ){
+            budget -= Number(mapa[clave][Number(0)]);
+            document.getElementById("budget").textContent = String(budget);
+          }
+          if (op == "remove" ){
+            budget += Number(mapa[clave][Number(0)]);
+            document.getElementById("budget").textContent = String(budget);
+          }
+         
+          // Eliminar el divContenedor del DOM
+          contenedor.removeChild(divContenedor);
+          // Eliminar el par correspondiente de la variable mapa
+          delete mapa[clave];
+          // Volver a mostrar el contenido actualizado
+          if (Object.entries(mapa).length !== 0) {
+            newEntry(mapa);
+          }
+
+          checkEmpty();
+
+        };
+      }(clave));
+
+      // Agregar el botón al div contenedor
+      divContenedor.appendChild(botonEliminar);
+
+      var lineaDivisoria = document.createElement("hr");
+      lineaDivisoria.style.borderColor = "gray";
+      divContenedor.appendChild(lineaDivisoria);
+
+
+      // Agregar el div contenedor al contenedor principal
+      contenedor.insertBefore(divContenedor, contenedor.firstChild);
+    }
+  }
+}
+
+function showToast(msg) {
+
+  Swal.fire({
+/*     title: 'Confirmación', */
+    text: msg,
+/*     icon: 'question', */
+/*     showCancelButton: true, */
+    confirmButtonColor: '#7533f9',
+/*     cancelButtonColor: '#d33', */
+    confirmButtonText: 'Aceptar',
+/*     cancelButtonText: 'Cancelar' */
+  }).then((result) => {
+    if (result.isConfirmed) {
+
+    }
+  });
+
+/*     document.getElementById("msgTxt").textContent = msg
+    $('.toast').toast('show'); */
+  }
+
+function generateId() {
+  const characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  let randomId = "";
+  for (let i = 0; i < 8; i++) {
+    const indiceAleatorio = Math.floor(Math.random() * characters.length);
+    randomId += characters.charAt(indiceAleatorio);
+  }
+  return randomId;
+  }
+
+function programa(val){
+
+if (document.getElementById("cantidadTxt").value == "" || document.getElementById("descripcionTxt").value == ""){ 
+  showToast("Debe ingresar un monto y una descripción.")
+}else{
+
+  if (isNumber(document.getElementById("cantidadTxt").value)){
+
+    if (val == "add"){
+    document.getElementById("contenedor2").innerHTML = "";
+    var cantidad = document.getElementById("cantidadTxt").value;
+    var descripcion = document.getElementById("descripcionTxt").value;
+    var date = currentDate();
+    mapa[generateId()] = [cantidad, descripcion, date, "add"];
+    newEntry(mapa);
+    budget += Number(cantidad);
+   }
+   if (val == "remove"){
+    document.getElementById("contenedor2").innerHTML = "";
+    var cantidad = document.getElementById("cantidadTxt").value;
+    var descripcion = document.getElementById("descripcionTxt").value;
+    var date = currentDate();
+
+    mapa[generateId()] = [cantidad, descripcion, date, "remove"];
+    newEntry(mapa);
+    budget -= Number(cantidad);    
+   }
+
+
+   document.getElementById("budget").textContent = String(budget);
+  }else{
+    showToast("Debe ingresar una cantidad numérica de dinero.")
+  }
+}
+checkEmpty();
+document.getElementById("cantidadTxt").value = "";
+document.getElementById("descripcionTxt").value = "";
+
+}
+
+function checkEmpty(){
+
+  if (budget === 0) {
+    // Obtener el elemento con el ID "contenedor2"
+    var contenedor = document.getElementById("contenedor2");
+
+    // Eliminar el contenido actual del contenedor
+    contenedor.innerHTML = "";
+
+    // Crear un nuevo párrafo
+    var nuevoParrafo = document.createElement("p");
+
+    // Agregar texto al nuevo párrafo
+    nuevoParrafo.textContent = "No hay transacciones";
+    nuevoParrafo.style.color = "black";
+    nuevoParrafo.style.textAlign = "center";
+    nuevoParrafo.style.padding = "2rem"; 
+
+    // Insertar el nuevo párrafo en el contenedor
+    contenedor.appendChild(nuevoParrafo);
+  }
+  save();
+
+}
+
+function isNumber(variable) {
+  var patron = /^[0-9.]+$/;
+  return patron.test(variable);
+}
+
+function currentDate () {
+
+  var fechaHoraActual = new Date();
+  // Obtener componentes individuales (año, mes, día, hora, minutos, segundos)
+  var año = fechaHoraActual.getFullYear();
+  var mes = fechaHoraActual.getMonth() + 1; // Los meses van de 0 a 11, así que sumamos 1
+  var dia = fechaHoraActual.getDate();
+  var horas = fechaHoraActual.getHours();
+  var minutos = fechaHoraActual.getMinutes();
+  var segundos = fechaHoraActual.getSeconds();
+
+  // Formatear la fecha y hora en el formato deseado
+  var cadenaFechaHora = dia + '/' + mes + '/' + año + ' - ' + horas + ':' + minutos + ':' + segundos;
+
+  // Imprimir la cadena formateada
+
+  return(cadenaFechaHora);
+
+}
+
+///////////////////////////////////////////////////////////////////
+    // save and load
+
+function save() {
+  localStorage.setItem("budget", String(budget));
+  var savedMap = JSON.stringify(mapa);
+  localStorage.setItem("savedMap", savedMap);
+}
+
+function load() {
+    
+    if (localStorage.getItem('budget') !== null) {
+    
+        // load budet    
+        budget = Number(localStorage.getItem("budget"));
+        document.getElementById("budget").textContent = String(budget);
+        // load mapa
+        var objetoJS = JSON.parse(localStorage.getItem("savedMap"));
+        mapa = objetoJS
+        newEntry(mapa);
+        }
+ 
+}
+
+
+
+
+function checkConnectionAndShowLoading() {
+  // Muestra el gif de carga
+  showLoadingGif();
+
+  // Intenta realizar una solicitud simple para verificar la conexión
+  fetch('/images/icon.png').then(response => {
+    if (response.ok) {
+      // Si la solicitud tiene éxito, oculta el gif de carga
+      hideLoadingGif();
+    } else {
+      // Si la solicitud falla, la conexión puede estar ausente
+      // Ajusta la lógica según tus necesidades
+      console.error('No hay conexión');
+    }
+  }).catch(() => {
+    // Si hay un error en la solicitud, la conexión puede estar ausente
+    // Ajusta la lógica según tus necesidades
+    console.error('No hay conexión');
+  });
+}
+
+function showLoadingGif() {
+  // Lógica para mostrar el gif de carga, por ejemplo, mostrar un div con el gif
+  const loadingDiv = document.getElementById('loadingDiv');
+  if (loadingDiv) {
+    loadingDiv.style.display = 'block';
+  }
+}
+
+function hideLoadingGif() {
+  // Lógica para ocultar el gif de carga, por ejemplo, ocultar un div con el gif
+  const loadingDiv = document.getElementById('loadingDiv');
+  if (loadingDiv) {
+    loadingDiv.style.display = 'none';
+  }
+}
+
+
+
+
+
+
+
+
+    
+////////////////////////////////////////////////////////////////////
+
+</script>
+
+</html>
+
+
+<!-- 
+  shift + alt + a >>> para comentar y descomentar codigo 
+  ctrl + f5 >>> force update en browsers
+-->
+
+<!--
+ejemplo de mapa
+var mapa = {
+  "NumeroDeID1": ["500", "Funda roja", "date1","add"],
+  "NumeroDeID2": ["700", "Funda Azul", "date2","remove"]
+};
+--!>
+
+
+
+
+

@@ -1,0 +1,138 @@
+﻿/* SELECTOR UNIVERSAL */
+
+
+* {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+color: white
+}
+
+/* SELECTORES DE ELEMENTOS */
+/*
+html { 
+  font-size: 100%; 
+  font-family: Arial, Helvetica, sans-serif;
+}
+body { padding: 1rem; }
+
+button {
+  border-radius: 5%;
+}
+
+button:hover {
+  background-color:cornflowerblue
+}
+*/
+
+.mi-contenedor {
+  border: 1px solid #000000; /* Bordes para visualización */
+  padding: 20px; /* Espaciado interno */
+}
+
+.custom-toast {
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin: 20px; /* Ajusta el margen según sea necesario */
+  max-width: 300px; /* Ajusta el ancho máximo según sea necesario */
+}
+
+.custom-toast {
+  background-color: black;
+  color: white;
+}
+
+.custom-toast .toast-header {
+  background-color: #343a40; /* Color de fondo del encabezado */
+  color: white;
+}
+
+.custom-toast .toast-body {
+  background-color: black; /* Color de fondo del cuerpo */
+  color: white;
+}
+
+button {
+  background-color: #000000;
+}
+
+
+#parrafo_0{
+ font-size: 2rem;
+ color: black;
+}
+
+#parrafo_1{
+  color: black;
+ }
+
+ #parrafo_2{
+  color: black;
+ }
+
+ #parrafo_3{
+  color: black;
+ }
+
+.primaryDiv {
+  background-color: white;
+  color: black;
+}
+
+.secondaryDiv {
+    background-color: white;
+    color: black;  
+    min-height: 100vh;
+
+}
+
+.white {
+  color: white
+}
+
+.black {
+  color: rgb(0, 0, 0);
+}
+
+.mainBar {
+  background-color:#7533f9;
+  padding: 0.5rem;
+  
+}
+
+.btn-custom-color {
+  background-color:#7533f9;
+  color: white;
+}
+
+.btn-custom-color:hover {
+  background-color: #af8bf8;
+}
+
+.rojo {
+  color: red; /* Cambia "red" al color que desees */
+
+}
+
+.azul {
+  color: blue;
+  outline-color: blue;
+}
+
+.imagen-blanca {
+    filter: invert(1);
+  }
+  
+#parrafo_0.remove {
+    color: #FF0000;
+    
+}
+
+
+
+/* #7533f9;
+
+
+
+
+

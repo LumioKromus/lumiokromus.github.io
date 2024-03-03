@@ -1,0 +1,13 @@
+curso bootstrap:
+	https://www.youtube.com/watch?v=QCw0L6FupQ0
+
+direccion oficial:
+	https://getbootstrap.com/
+
+
+---
+
+container: tiene un ancho maximo
+container fluid: se va a estirar todo lo que pueda
+
+deje en 1:36

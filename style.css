@@ -1,0 +1,34 @@
+body {
+    padding-left: 3rem;
+    padding-right: 3rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+
+
+.inline-elements {
+    display: inline-block;
+  }
+
+  .card-body.text-center {
+    background-color:powderblue
+  }
+
+  .titleBlock {
+    color: white;
+    background-color:cornflowerblue;
+    padding: 0.5rem;
+    font-size:x-large;
+  }
+
+  .dropdown-item:hover {
+    background-color: green;
+    color: white; /* Opcional: Cambiar el color del texto al hacer hover */
+  }
+
+/*
+
+
+  .mainContainer {
+  margin-top: 56px; /* Ajusta este valor según la altura de tu barra de navegación */
