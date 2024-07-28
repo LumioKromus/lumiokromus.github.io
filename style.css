@@ -3,6 +3,8 @@ body {
     padding-right: 3rem;
     padding-top: 1rem;
     padding-bottom: 1rem;
+    background-color:darkslategray;
+    color: white;
 }
 
 
@@ -17,15 +19,22 @@ body {
 
   .titleBlock {
     color: white;
-    background-color:cornflowerblue;
+    background-color:cadetblue;
     padding: 0.5rem;
     font-size:x-large;
   }
 
   .dropdown-item:hover {
-    background-color: green;
+    background-color:cadetblue;
+
     color: white; /* Opcional: Cambiar el color del texto al hacer hover */
   }
+
+  .bg-custom {
+    background-color:cadetblue; /* Reemplaza con tu color personalizado */
+}
+
+
 
 /*
 
