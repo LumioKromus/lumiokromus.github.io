@@ -1,28 +1,27 @@
 body {
-    padding-left: 3rem;
-    padding-right: 3rem;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
+  margin: 10px; /* o el valor que quieras, puede ser 0 */
+  padding: 0;   /* opcional, para ajustar el padding */
     background-color:darkslategray;
     color: white;
 }
-
-
 
 .inline-elements {
     display: inline-block;
   }
 
-  .card-body.text-center {
-    background-color:powderblue
-  }
-
+.card {
+  background-color: #cce5ff; /* azul claro */
+}
   .titleBlock {
     color: white;
     background-color:cadetblue;
     padding: 0.5rem;
     font-size:x-large;
   }
+
+  .card-body {
+  text-align: justify;
+}
 
   .dropdown-item:hover {
     background-color:cadetblue;
